@@ -145,10 +145,8 @@ function nextPage(page){
     document.getElementById("page"+page).classList.add("active");
 }
 
-/* AKTIFKAN SUARA OTOMATIS */
+/* MUSIK mulai saat klik pertama */
 const music = document.getElementById("bgMusic");
-
-/* musik mulai saat user klik pertama kali di mana saja */
 document.body.addEventListener("click", function(){
     music.play();
 }, { once:true });
@@ -220,4 +218,5 @@ setInterval(()=>{
 </script>
 
 </body>
+
 </html>
