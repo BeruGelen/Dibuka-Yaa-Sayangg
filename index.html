@@ -104,10 +104,10 @@ button{
 <body>
 
 <!-- MUSIK AUTO PLAY -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" autoplay loop muted playsinline>
     <source src="musik.mpeg" type="audio/mpeg">
 </audio>
-
+    
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
     <h1 id="typing"></h1>
@@ -147,9 +147,13 @@ function nextPage(page){
 
 /* MUSIK mulai saat klik pertama */
 const music = document.getElementById("bgMusic");
-document.body.addEventListener("click", function(){
-    music.play();
-}, { once:true });
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        music.muted = false;
+        music.volume = 1;
+        music.play().catch(()=>{});
+    }, 800);
+});
 
 /* NO KABUR + YES MEMBESAR */
 const noBtn = document.getElementById("noBtn");
@@ -220,3 +224,4 @@ setInterval(()=>{
 </body>
 
 </html>
+
