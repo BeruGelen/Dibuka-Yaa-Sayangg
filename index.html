@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Invitation for The Special One</title>
+
+<style>
+body{
+    font-family: 'Segoe UI', sans-serif;
+    margin:0;
+    color:white;
+    text-align:center;
+    overflow:hidden;
+    transition:background 0.8s ease;
+    background: linear-gradient(135deg,#0f172a,#1e3a8a,#3b82f6,#93c5fd);
+}
+
+.page{
+    display:none;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    animation: fade 0.8s ease;
+}
+.active{ display:flex; }
+
+button{
+    padding:12px 28px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+    backdrop-filter: blur(6px);
+}
+
+.primary{
+    background: linear-gradient(135deg,#60a5fa,#3b82f6);
+    color:white;
+}
+
+.secondary{
+    background:#64748b;
+    color:white;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.btn-area{
+    position:relative;
+    width:320px;
+    height:140px;
+    margin-top:10px;
+}
+
+#yesBtn{
+    position:absolute;
+    left:40px;
+    top:50px;
+    transition: transform 0.2s ease;
+}
+
+#noBtn{
+    position:absolute;
+    left:180px;
+    top:50px;
+    transition: transform 0.2s ease;
+}
+
+.choice img{
+    width:180px;
+    height:240px;
+    object-fit:cover;
+    border-radius:18px;
+    margin:10px;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow: 0 0 20px rgba(147,197,253,0.5);
+}
+.choice img:hover{ transform:scale(1.05); }
+
+/* LOVE BIRU BERTERBANGAN */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    opacity:0.8;
+    color:#93c5fd;
+    animation: floatUp linear forwards;
+}
+@keyframes floatUp{
+    0%{ transform:translateY(0) translateX(0); opacity:0.9; }
+    25%{ transform:translateY(-25vh) translateX(-20px); }
+    50%{ transform:translateY(-50vh) translateX(20px); }
+    75%{ transform:translateY(-75vh) translateX(-15px); }
+    100%{ transform:translateY(-110vh) translateX(10px); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIK AUTO PLAY -->
+<audio id="bgMusic" autoplay loop muted playsinline>
+    <source src="musik.mpeg" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+    <h1 id="typing"></h1>
+    <p>Terima kasih sudah selalu ada. Yuk rayakan hari kita dengan sesuatu yang sederhana… tapi penuh makna.</p>
+    <button class="primary" onclick="nextPage(2)">Next</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+    <h1>Jalan-jalan yukk 👫🤩🥳</h1>
+    <div class="btn-area">
+        <button class="primary" id="yesBtn" onclick="nextPage(3)">Yes</button>
+        <button class="secondary" id="noBtn">No</button>
+    </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+    <h1>Pilih Dresscode yaa 👗</h1>
+    <div class="choice">
+        <img src="foto-hitam.jpg" onclick="pilihTema('hitam')">
+        <img src="foto-biru.jpg" onclick="pilihTema('biru')">
+    </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+    <h1>Siap-siap yaa 🩷</h1>
+    <p>Nanti aku jemput. See you wopp😘😉</p>
+</div>
+
+<script>
+function nextPage(page){
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById("page"+page).classList.add("active");
+}
+
+/* AKTIFKAN SUARA OTOMATIS */
+const music = document.getElementById("bgMusic");
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        music.muted = false;
+        music.volume = 1;
+        music.play().catch(()=>{});
+    }, 800);
+});
+
+/* NO KABUR + YES MEMBESAR */
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+let scale = 1;
+let offsetX = 0;
+let offsetY = 0;
+
+document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+
+    const centerX = rect.left + rect.width/2;
+    const centerY = rect.top + rect.height/2;
+
+    const dx = centerX - e.clientX;
+    const dy = centerY - e.clientY;
+
+    const distance = Math.sqrt(dx*dx + dy*dy);
+
+    if(distance < 140){
+        offsetX += dx * 0.15;
+        offsetY += dy * 0.15;
+
+        noBtn.style.transform =
+            "translate(" + offsetX + "px," + offsetY + "px)";
+
+        scale += 0.04;
+        yesBtn.style.transform = "scale(" + scale + ")";
+    }
+});
+
+/* ANIMASI KETIK */
+const text = "Happy Anniversary Sayang 🩷";
+let i = 0;
+function ketik(){
+    if(i < text.length){
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(ketik, 70);
+    }
+}
+ketik();
+
+/* TEMA DRESSCODE */
+function pilihTema(warna){
+    if(warna === "hitam"){
+        document.body.style.background = "linear-gradient(135deg,#000000,#1f2937,#4b5563)";
+    }else{
+        document.body.style.background = "linear-gradient(135deg,#0f172a,#1e3a8a,#3b82f6,#bfdbfe)";
+    }
+    nextPage(4);
+}
+
+/* LOVE BERTERBANGAN */
+setInterval(()=>{
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize = (Math.random()*12+14)+"px";
+    heart.style.animationDuration = (Math.random()*4+4)+"s";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),8000);
+},250);
+</script>
+
+</body>
+</html>
